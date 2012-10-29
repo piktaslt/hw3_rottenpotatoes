@@ -26,4 +26,12 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
+  rating_list.split(%r{,\s*}).each do |checkbox|
+    steps %Q{When I #{uncheck}check "ratings_#{checkbox}"}
+  end
+end
+
+Then /I should see all of the (.*)/ do |movie|
+  mynumber = page.all('table#movies tr').count
+  assert_equal 11, mynumber
 end
